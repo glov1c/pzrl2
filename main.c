@@ -41,14 +41,21 @@ int main(int argc, char** argv) {
             return EXIT_FAILURE;
         case 1:
             deleteStr(buffer, C.str1);
+            break;
         case 2:
             addPrefix(buffer, C.str1);
+            break;
         case 3:
             addSuffix(buffer, C.str1);
+            break;
         case 4:
             replace(buffer, C.str1, C.str2);
 //            fputs(buffer, stdout);
 //            printf("\n");
+            break;
+    }
+    if (buffer == NULL) {
+        return EXIT_FAILURE;
     }
     
     file_ptr = fopen(argv[1], "w");
@@ -57,6 +64,7 @@ int main(int argc, char** argv) {
         return EXIT_FAILURE;
     }
     fputs(buffer, file_ptr);
+    fputs(buffer, stdout);
     printf("\n");
     free(buffer);
     fclose(file_ptr);
