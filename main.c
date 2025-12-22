@@ -17,18 +17,25 @@ int main(int argc, char** argv) {
         return EXIT_FAILURE;
     }
     //fputs("Hello, world", file_ptr);
-    char* buffer = (char*)calloc(256, sizeof(char));
+    char** buffer = (char**)calloc(100, sizeof(char*));
     if (buffer == NULL) {
         perror("memory error\n");
         return EXIT_FAILURE;
     }
     char* line = NULL;
     size_t capacity = 0;
+    int bufferSize = 0;
     while (getline(&line, &capacity, file_ptr) != -1) {
-        strcat(buffer, line);
+        if (line[strlen(line)-1] == '\n') {
+            line[strlen(line)-1] = '\0';
+        }
+        buffer[bufferSize] = strdup(line);
+        fputs(buffer[bufferSize], stdout);
+        printf("\n");
+        bufferSize++;
+        line = NULL;
     }
-    fputs(buffer, stdout);
-    printf("\n");
+    
     free(line);
     fclose(file_ptr);
     
@@ -40,16 +47,16 @@ int main(int argc, char** argv) {
             perror("command error\n");
             return EXIT_FAILURE;
         case 1:
-            deleteStr(buffer, C.str1);
+            deleteStr(buffer, &bufferSize, C.str1);
             break;
         case 2:
-            addPrefix(buffer, C.str1);
+            addPrefix(buffer, bufferSize, C.str1);
             break;
         case 3:
-            addSuffix(buffer, C.str1);
+            addSuffix(buffer, bufferSize, C.str1);
             break;
         case 4:
-            replace(buffer, C.str1, C.str2);
+            replace(buffer, bufferSize, C.str1, C.str2);
 //            fputs(buffer, stdout);
 //            printf("\n");
             break;
@@ -63,9 +70,12 @@ int main(int argc, char** argv) {
         perror("file error\n");
         return EXIT_FAILURE;
     }
-    fputs(buffer, file_ptr);
-    fputs(buffer, stdout);
-    printf("\n");
+    for(int i = 0; i < bufferSize; i++) {
+        fputs(buffer[i], file_ptr);
+        fputs("\n", file_ptr);
+        fputs(buffer[i], stdout);
+        fputs("\n", stdout);
+    }
     free(buffer);
     fclose(file_ptr);
     return EXIT_SUCCESS;

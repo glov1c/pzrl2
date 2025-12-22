@@ -7,7 +7,7 @@ typedef struct {
 } Command;
 
 Command command(char* str);
-char* replace(char* buffer, char* substr, char* newstr);
-char* deleteStr(char* buffer, char* substr);
-char* addPrefix(char* buffer, char* newstr);
-char* addSuffix(char* buffer, char* newstr);
+char** replace(char** buffer, int bufferSize, char* substr, char* newstr);
+char** deleteStr(char** buffer, int* bufferSize, char* substr);
+char** addPrefix(char** buffer, int bufferSize, char* prefix);
+char** addSuffix(char** buffer, int bufferSize, char* suffix);
