@@ -15,13 +15,13 @@ Command command(char* str) {
     int i = 0;
     while (token && i < 3) {
         strsplit[i] = token;
-        printf("%s ", strsplit[i]);
+//        printf("%s ", strsplit[i]);
         token = strtok(NULL, "/");
         if (token){
             i++;
         }
     }
-    printf("\n");
+//    printf("\n");
     if (i == 1 && strcmp(strsplit[1], "d") == 0){
         Command C = {1, strsplit[0], NULL};
         return C;
@@ -42,9 +42,6 @@ Command command(char* str) {
     }
                 
     Command C = {0, "-", "-"};
-//    for(int i = 0; i < 3; i++) {
-//        free(strsplit[i]);
-//    }
     free(strsplit);
     return C;
 }
@@ -61,7 +58,6 @@ char** replace(char** buffer, int bufferSize, char* substr, char* newstr){
         while(regexec(&regex, buffer[k], 1, &m, 0) != REG_NOMATCH) {
             long long start = m.rm_so;
             long long end = m.rm_eo;
-            //printf("%ld %ld\n", start, end);
             char* buffer1 = (char*)calloc(256, sizeof(char));
             if (buffer1 == NULL) {
                 perror("memory error\n");
@@ -80,8 +76,6 @@ char** replace(char** buffer, int bufferSize, char* substr, char* newstr){
                 }
             }
             strcpy(buffer[k], buffer1);
-            //fputs(buffer, stdout);
-            //printf("\n");
             free(buffer1);
         }
     }
@@ -114,8 +108,6 @@ char** deleteStr(char** buffer, int* bufferSize, char* substr){
         int result = regexec(&regex, buffer[k], 0, NULL, 0);
         if (result == 1) {
             strcat(buffer1, buffer[k]);
-            //fputs(buffer1, stdout);
-            //printf("-----\n");
             buffer[countWritten] = strdup(buffer1);
             countWritten++;
         }
