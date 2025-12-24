@@ -3,20 +3,20 @@
 CC = gcc
 CFLAGS = -Wall
 SOURCES = main.c operations.c
-OBJECTS = main.o operations.o
+OBJECTS = $(SOURCES:.c=.o)
 TARGET = sed_simplified
-ARGS = input.txt str/d
+ARGS = input.txt s/Hi/prefix
 
 all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) -o $(TARGET)
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJECTS)
 	
-*.o: $(SOURCES)
-	$(CC) $(CFLAGS) $< -o $@
+*.o: *.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 test: $(TARGET)
 	./$(TARGET) $(ARGS)
 
-clean: $(TARGET)
-	rm -f $(OBJECTS)
+clean:
+	rm -f $(OBJECTS) $(TARGET)

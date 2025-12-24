@@ -24,24 +24,34 @@ Command command(char* str) {
 //    printf("\n");
     if (i == 1 && strcmp(strsplit[1], "d") == 0){
         Command C = {1, strsplit[0], NULL};
+    	free(token);
+    	free(strsplit);
         return C;
+
     }
     if (i == 2) {
         if (strcmp(strsplit[0], "s") == 0 && strcmp(strsplit[2], "prefix") == 0) {
             Command C = {2, strsplit[1], NULL};
+    	    free(token);
+    	    free(strsplit);
             return C;
         }
         if (strcmp(strsplit[0], "s") == 0 && strcmp(strsplit[2], "suffix") == 0) {
             Command C = {3, strsplit[1], NULL};
+            free(token);
+    	    free(strsplit);
             return C;
         }
         else{
             Command C = {4, strsplit[1], strsplit[2]};
+            free(token);
+            free(strsplit);
             return C;
         }
     }
                 
     Command C = {0, "-", "-"};
+    free(token);
     free(strsplit);
     return C;
 }
@@ -90,6 +100,7 @@ char** deleteStr(char** buffer, int* bufferSize, char* substr){
         printf("memory error\n");
         return NULL;
     }
+    *regexstr = '\0';
     strcat(regexstr, "^");
     strcat(regexstr, substr);
     strcat(regexstr, "$");
@@ -114,6 +125,7 @@ char** deleteStr(char** buffer, int* bufferSize, char* substr){
         free(buffer1);
     }
     regfree(&regex);
+    free(regexstr);
     *bufferSize = countWritten;
     return buffer;
 }
@@ -125,6 +137,7 @@ char** addPrefix(char** buffer, int bufferSize, char* prefix){
             perror("memory error\n");
             return NULL;
         }
+	buffer1[0] = '\0';
         strcat(buffer1, prefix);
         strcat(buffer1, buffer[k]);
         strcpy(buffer[k], buffer1);
@@ -140,6 +153,7 @@ char** addSuffix(char** buffer, int bufferSize, char* suffix){
             perror("memory error\n");
             return NULL;
         }
+	buffer1[0] = '\0';
         strcat(buffer1, buffer[k]);
         strcat(buffer1, suffix);
         strcpy(buffer[k], buffer1);
